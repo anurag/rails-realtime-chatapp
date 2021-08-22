@@ -6,6 +6,7 @@ databases:
 services:
 - type: pserv
   name: redis
+  repo: https://github.com/render-examples/redis
   env: docker
   disk:
     name: data
