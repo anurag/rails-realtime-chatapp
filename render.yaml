@@ -1,11 +1,11 @@
 databases:
-- name: rails_realtime_chat
-  databaseName: rails_realtime_chat
-  user: rails_realtime_chat_user
+- name: rails_chat
+  databaseName: rails_chat
+  user: rails_chat_user
 
 services:
 - type: pserv
-  name: redis
+  name: redis-rails-chat
   repo: https://github.com/render-examples/redis
   env: docker
   disk:
@@ -13,18 +13,18 @@ services:
     mountPath: /var/lib/redis
     sizeGB: 1
 - type: web
-  name: rails-realtime-chat
+  name: rails-chat
   env: ruby
   buildCommand: "./bin/render-build.sh"
   startCommand: "bundle exec puma -C config/puma.rb"
   envVars:
     - key: DATABASE_URL
       fromDatabase:
-        name: rails_realtime_chat
+        name: rails_chat
         property: connectionString
     - key: REDIS_HOSTPORT
       fromService:
-        name: redis
+        name: redis-rails-chat
         type: pserv
         property: hostport
     - key: SECRET_KEY_BASE
